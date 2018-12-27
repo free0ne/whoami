@@ -7,6 +7,8 @@ local scene = composer.newScene()
 local firstback = true
 local justShacken = false
 local counter = 0
+local lastOne = 1
+local newOne = 1
 
 local guys = {}
 local celebrities = false
@@ -86,9 +88,15 @@ function scene:create( event )
       if event.isShake then
           if justShacken == false then
             justShacken = true
-            timer.performWithDelay( 750, backShake )
+            timer.performWithDelay( 550, backShake )
             counter = counter + 1
-            gameText.text = guys[math.random(#guys)]
+            newOne = math.random(#guys)
+            if lastOne == newOne then
+              newOne = math.random(#guys)
+              --print ("hoba")
+            end
+            lastOne = newOne
+            gameText.text = guys[lastOne]
             system.vibrate()
           end
       end
