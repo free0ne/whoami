@@ -53,6 +53,7 @@ function scene:create( event )
   local labeltextcolor = {1, 1, 1}
   local labelrectcolor = {55/255, 0/255, 179/255}
   local textcolor = {0, 0, 0}
+  local subTextcolor = {0.2, 0.2, 0.2}
   local onColorButton = {2/255, 218/255, 197/255}
   local offColorButton = {1, 1, 1, 1}
   local startGameRectColor = {98/255, 0/255, 237/255}
@@ -61,6 +62,7 @@ function scene:create( event )
   local font = "geometos.ttf"
   local rects = {}
   local texts = {}
+  local subTexts = {}
   local menuGroups = {}
 
   local labelRect = display.newRect( sceneGroup, display.contentCenterX, 65, display.contentWidth, 130 )
@@ -73,9 +75,11 @@ function scene:create( event )
     if (event.target.state == true) then
       event.target:setFillColor( unpack(onColorButton) )
       texts[event.target.number]:setFillColor( unpack(bgcolor) )
+      subTexts[event.target.number]:setFillColor( unpack(bgcolor) )
     else
       event.target:setFillColor( unpack(offColorButton) )
       texts[event.target.number]:setFillColor( unpack(textcolor) )
+      subTexts[event.target.number]:setFillColor( unpack(subTextcolor) )
     end
     --print(event.target.state)
   end
@@ -119,17 +123,27 @@ function scene:create( event )
 
     if (i == 1) then
       texts[i] = display.newText( menuGroups[i], "знаменитости", 0, 0, font, 26 )
+      subTexts[i] = display.newText( menuGroups[i], "150+", 0, 32, font, 20 )
     elseif (i == 2) then
       texts[i] = display.newText( menuGroups[i], "киногерои", 0, 0, font, 26 )
+      subTexts[i] = display.newText( menuGroups[i], "100+", 0, 32, font, 20 )
     elseif (i == 3) then
       texts[i] = display.newText( menuGroups[i], "герои мультфильмов", 0, 0, font, 26 )
+      subTexts[i] = display.newText( menuGroups[i], "100+", 0, 32, font, 20 )
     elseif (i == 4) then
       texts[i] = display.newText( menuGroups[i], "книжные персонажи", 0, 0, font, 26 )
+      subTexts[i] = display.newText( menuGroups[i], "в разработке", 0, 32, font, 20 )
+      rects[i]:removeEventListener( "tap", chooseCategory )
+      rects[i]:setFillColor( 0.8 )
     elseif (i == 5) then
       texts[i] = display.newText( menuGroups[i], "политики", 0, 0, font, 26 )
+      subTexts[i] = display.newText( menuGroups[i], "в разработке", 0, 32, font, 20 )
+      rects[i]:removeEventListener( "tap", chooseCategory )
+      rects[i]:setFillColor( 0.8 )
     end
 
     texts[i]:setFillColor( unpack(textcolor) )
+    subTexts[i]:setFillColor( unpack(subTextcolor) )
     sceneGroup:insert(menuGroups[i])
   end
 
