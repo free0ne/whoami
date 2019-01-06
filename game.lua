@@ -129,7 +129,12 @@ function scene:create( event )
               subGameText.text = ""
             else
               gameText.text = guys2[lastOne-onepart][1]
-              subGameText.text = guys2[lastOne-onepart][2]
+              if guys2[lastOne-onepart][1] ~= guys2[lastOne-onepart][2] then
+                subGameText.text = guys2[lastOne-onepart][2]
+              else
+                subGameText.text = ""
+              end
+
             end
 
             system.vibrate()
