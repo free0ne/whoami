@@ -10,14 +10,22 @@ local counter = 0
 local lastOne = 1
 local newOne = 1
 
-local guys = {}
-local guys2 = {}
-local celebrities = false
-local cinema = false
-local cartoon = false
+local tempDB = {}
+local totalDB = {}
+local serviceDB = {}
 
-local onepart = 0
-local twoparts = 0
+local titlesOnly
+local celebritiesRU = false
+local celebritiesIN = false
+local cinema = false
+local cinemaHeroes = false
+local cartoons = false
+local cartoonHeroes = false
+local books = false
+local bookHeroes = false
+
+local subGameText
+local gameText
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
@@ -29,8 +37,34 @@ local twoparts = 0
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
 -- -----------------------------------------------------------------------------------
+local function backShake( event )
+    justShacken = false
+end
+
 local function backTimer( event )
     firstback = true
+end
+
+local function shakeListener( event )
+    if event.isShake then
+        if justShacken == false then
+            justShacken = true
+            timer.performWithDelay( 550, backShake )
+            counter = counter + 1
+            newOne = math.random(#totalDB)
+            if lastOne == newOne then
+                newOne = math.random(#totalDB)
+                --print ("hoba")
+            end
+            lastOne = newOne
+            gameText.text = totalDB[lastOne][1]
+            subGameText.text = totalDB[lastOne][2]
+            --gameText.text = "привет привет привет привет привет привет"
+            --subGameText.text = "привет привет привет привет привет привет"
+            system.vibrate()
+        end
+    end
+    return true
 end
 
 -- Called when a key event has been received
@@ -60,90 +94,146 @@ end
 
 -- create()
 function scene:create( event )
-  display.setStatusBar( display.HiddenStatusBar )
-  math.randomseed( os.time() )
+    display.setStatusBar( display.HiddenStatusBar )
+    math.randomseed( os.time() )
 
-  celebrities = composer.getVariable( "cat1" )
-  cinema = composer.getVariable( "cat2" )
-  cartoon = composer.getVariable( "cat3" )
+    titlesOnly = composer.getVariable( "titlesOnly" )
+    celebritiesRU = composer.getVariable( "cat6" )
+    celebritiesIN = composer.getVariable( "cat7" )
+    cinemaHeroes = composer.getVariable( "cat8" )
+    cinema = composer.getVariable( "cat9" )
+    cartoonHeroes = composer.getVariable( "cat10" )
+    cartoons = composer.getVariable( "cat11" )
+    bookHeroes = composer.getVariable( "cat12" )
+    books = composer.getVariable( "cat13" )
 
-  if celebrities == true then
-    local celebritiesDB = require("celebrities")
-    onepart = onepart + #celebritiesDB
-    for i=1, #celebritiesDB do
-      table.insert( guys, celebritiesDB[i] )
-    end
-  end
-  if cinema == true then
-    local cinemaDB = require("cinema")
-    twoparts = twoparts + #cinemaDB
-    for i=1, #cinemaDB do
-      table.insert( guys2, cinemaDB[i] )
-    end
-  end
-  if cartoon == true then
-    local cartoonDB = require("cartoons")
-    twoparts = twoparts + #cartoonDB
-    for i=1, #cartoonDB do
-      table.insert( guys2, cartoonDB[i] )
-    end
-  end
 
-  -- Add the key event listener
-  Runtime:addEventListener( "key", onKeyEvent )
+    if titlesOnly == false then
+        if celebritiesRU == true then
+            tempDB = require("celebritiesRU")
+            for i=1, #tempDB do
+                table.insert( totalDB, {tempDB[i], ""} )
+                table.insert( serviceDB, tempDB[i])
+            end
+        end
+        if celebritiesIN == true then
+            tempDB = require("celebritiesIN")
+            for i=1, #tempDB do
+                if table.indexOf( serviceDB, tempDB[i] ) == nil then
+                    table.insert( totalDB, {tempDB[i], ""} )
+                    table.insert( serviceDB, tempDB[i])
+                else print "powtor" end
+            end
+        end
+        if cinemaHeroes == true then
+            tempDB = require("cinemaHeroes")
+            for i=1, #tempDB do
+                if table.indexOf( serviceDB, tempDB[i][1]..tempDB[i][2] ) == nil then
+                    table.insert( totalDB, {tempDB[i][1], tempDB[i][2]} )
+                    table.insert( serviceDB, tempDB[i][1]..tempDB[i][2])
+                else
+                    --print "powtor"
+                end
+            end
+        end
+        if cartoonHeroes == true then
+            tempDB = require("cartoonHeroes")
+            for i=1, #tempDB do
+                if table.indexOf( serviceDB, tempDB[i][1]..tempDB[i][2] ) == nil then
+                    table.insert( totalDB, {tempDB[i][1], tempDB[i][2]} )
+                    table.insert( serviceDB, tempDB[i][1]..tempDB[i][2])
+                else
+                    --print "powtor"
+                end
+            end
+        end
+        if bookHeroes == true then
+            tempDB = require("bookHeroes")
+            for i=1, #tempDB do
+                if table.indexOf( serviceDB, tempDB[i][1]..tempDB[i][2] ) == nil then
+                    table.insert( totalDB, {tempDB[i][1], tempDB[i][2]} )
+                    table.insert( serviceDB, tempDB[i][1]..tempDB[i][2])
+                else
+                    --print "powtor"
+                end
+            end
+        end
+    else --(titlesOnly == true)
+        if cinema == true then
+            tempDB = require("cinema")
+            for i=1, #tempDB do
+                table.insert( totalDB, {tempDB[i], ""})
+                table.insert( serviceDB, tempDB[i])
+            end
+        end
+        if cartoons == true then
+            tempDB = require("cartoons")
+            for i=1, #tempDB do
+                if table.indexOf( serviceDB, tempDB[i] ) == nil then
+                    table.insert( totalDB, {tempDB[i], ""} )
+                    table.insert( serviceDB, tempDB[i])
+                else print "powtor" end
+            end
+        end
+        if books == true then
+            tempDB = require("books")
+            for i=1, #tempDB do
+                if table.indexOf( serviceDB, tempDB[i] ) == nil then
+                    table.insert( totalDB, {tempDB[i], ""} )
+                    table.insert( serviceDB, tempDB[i])
+                else print "powtor" end
+            end
+        end
+
+    end
+
+    print(#totalDB)
+
+      -- Add the key event listener
+    Runtime:addEventListener( "key", onKeyEvent )
 
 	local sceneGroup = self.view
 	-- Code here runs when the scene is first created but has not yet appeared on screen
-  local gamebgcolor = {225/255, 226/255, 225/255}
-  local gametextcolor = {55/255, 0/255, 179/255}
-  local subgametextcolor = {98/255, 0/255, 237/255}
-  local font = "geometos.ttf"
+    local gamebgcolor = {225/255, 226/255, 225/255}
+    local gametextcolor = {55/255, 0/255, 179/255}
+    local subgametextcolor = {98/255, 0/255, 237/255}
+    local font = "geometos.ttf"
 
-  display.setDefault( "background", unpack( gamebgcolor ) )
-  local gameText = display.newText( sceneGroup, "встряхни телефон,\nчтобы начать игру", display.contentWidth/2, display.contentCenterY, font, 64 )
-  gameText:setFillColor( unpack(gametextcolor) )
-  gameText.rotation = 90
+    display.setDefault( "background", unpack( gamebgcolor ) )
 
-  local subGameText = display.newText( sceneGroup, "", display.contentWidth/5, display.contentCenterY, font, 44 )
-  subGameText:setFillColor( unpack(subgametextcolor) )
-  subGameText.rotation = 90
+    local options =
+    {
+        text = "встряхни телефон, чтобы начать игру",
+        x = display.contentWidth/2,
+        y = display.contentCenterY,
+        width = 920,
+        font = font,
+        fontSize = 64,
+        align = "center"  -- Alignment parameter
+    }
 
-  local function backShake( event )
-      justShacken = false
-  end
+    gameText = display.newText( options )
+    gameText:setFillColor( unpack(gametextcolor) )
+    gameText.rotation = 90
+    sceneGroup:insert(gameText)
 
-  local function shakeListener( event )
-      if event.isShake then
-          if justShacken == false then
-            justShacken = true
-            timer.performWithDelay( 550, backShake )
-            counter = counter + 1
-            newOne = math.random(onepart + twoparts)
-            if lastOne == newOne then
-              newOne = math.random(onepart + twoparts)
-              --print ("hoba")
-            end
-            lastOne = newOne
-            if (lastOne <= onepart) then
-              gameText.text = guys[lastOne]
-              subGameText.text = ""
-            else
-              gameText.text = guys2[lastOne-onepart][1]
-              if guys2[lastOne-onepart][1] ~= guys2[lastOne-onepart][2] then
-                subGameText.text = guys2[lastOne-onepart][2]
-              else
-                subGameText.text = ""
-              end
+    local subOptions =
+    {
+        text = "",
+        x = display.contentWidth/5,
+        y = display.contentCenterY,
+        width = 920,
+        font = font,
+        fontSize = 44,
+        align = "center"  -- Alignment parameter
+    }
 
-            end
+    subGameText = display.newText( subOptions )
+    subGameText:setFillColor( unpack(subgametextcolor) )
+    subGameText.rotation = 90
+    sceneGroup:insert(subGameText)
 
-            system.vibrate()
-          end
-      end
-
-      return true
-  end
-  Runtime:addEventListener( "accelerometer", shakeListener )
+    Runtime:addEventListener( "accelerometer", shakeListener )
 
 end
 
