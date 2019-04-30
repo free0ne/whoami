@@ -216,7 +216,7 @@ function scene:create( event )
         y = display.contentCenterY,
         width = 920,
         font = font,
-        fontSize = 64,
+        fontSize = 76,
         align = "center"  -- Alignment parameter
     }
 
@@ -232,7 +232,7 @@ function scene:create( event )
         y = display.contentCenterY,
         width = 920,
         font = font,
-        fontSize = 44,
+        fontSize = 50,
         align = "center"  -- Alignment parameter
     }
 

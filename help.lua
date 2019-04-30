@@ -21,6 +21,12 @@ local commentImg
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
 -- -----------------------------------------------------------------------------------
+local function goToAppStore (event)
+	if ( system.canOpenURL( "http://play.google.com/store/apps/details?id=pw.casualgaming.whoami" ) ) then
+    	system.openURL( "http://play.google.com/store/apps/details?id=pw.casualgaming.whoami" )
+	end
+end
+
 local function chooseUpdates( event )
     updatesImg.alpha = 1
     dankeImg.alpha = 0.3
@@ -84,7 +90,7 @@ function scene:create( event )
 - Расширена база данных
 - Отдельные режимы для персонажей и их источников]],
         x = display.contentWidth/2,
-        y = display.contentHeight*0.46,
+        y = display.contentHeight*0.47,
         width = 420,
         --font = font,
         fontSize = 22,
@@ -96,15 +102,15 @@ function scene:create( event )
     sceneGroup:insert(updatesText)
 
 
-	dankeText = display.newText( sceneGroup, "Вы можете поддержать\nразработчика,\nоставив отзыв на странице\nприложения в Google Play.", display.contentWidth*0.5, display.contentHeight*0.39, font, 32 )
+	dankeText = display.newText( sceneGroup, "Вы можете поддержать\nразработчика,\nоставив отзыв на странице\nприложения в Google Play.\n\nСпасибо.", display.contentWidth*0.5, display.contentHeight*0.39, font, 32 )
 	dankeText:setFillColor( 0.2 )
 	dankeText.isVisible = false
 
-	commentImg = display.newImage( sceneGroup, "comment.png", display.contentWidth*0.5, display.contentHeight*0.54 )
+	commentImg = display.newImage( sceneGroup, "comment.png", display.contentWidth*0.5, display.contentHeight*0.56 )
 	commentImg:setFillColor(88/255, 2/255, 109/255)
 	--commentImg:scale(0.85, 0.85)
 	commentImg.isVisible = false
-
+	commentImg:addEventListener( "tap", goToAppStore )
 
 	local footageText = display.newText( sceneGroup, "Обо всех недочётах и пожеланиях\nсообщайте, пожалуйста,\nразработчику через комментарии.\n\nПриятной игры!", display.contentWidth*0.57, display.contentHeight - 100, native.systemFont, 22 )
 	footageText:setFillColor( 0.2 )
