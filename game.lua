@@ -98,18 +98,19 @@ function scene:create( event )
     math.randomseed( os.time() )
 
     titlesOnly = composer.getVariable( "titlesOnly" )
-    celebritiesRU = composer.getVariable( "cat6" )
-    celebritiesIN = composer.getVariable( "cat7" )
-    cinemaHeroes = composer.getVariable( "cat8" )
-    cinema = composer.getVariable( "cat9" )
-    cartoonHeroes = composer.getVariable( "cat10" )
-    cartoons = composer.getVariable( "cat11" )
-    bookHeroes = composer.getVariable( "cat12" )
-    books = composer.getVariable( "cat13" )
+    celebritiesRU = composer.getVariable( "cat1" )
+    celebritiesIN = composer.getVariable( "cat2" )
+    cinemaHeroes = composer.getVariable( "cat3" )
+    cartoonHeroes = composer.getVariable( "cat4" )
+    bookHeroes = composer.getVariable( "cat5" )
+    cinema = composer.getVariable( "cat6" )
+    cartoons = composer.getVariable( "cat7" )
+    books = composer.getVariable( "cat8" )
 
 
     if titlesOnly == false then
         if celebritiesRU == true then
+            print("люди ру")
             tempDB = require("celebritiesRU")
             for i=1, #tempDB do
                 table.insert( totalDB, {tempDB[i], ""} )
@@ -117,6 +118,7 @@ function scene:create( event )
             end
         end
         if celebritiesIN == true then
+            print("люди ен")
             tempDB = require("celebritiesIN")
             for i=1, #tempDB do
                 if table.indexOf( serviceDB, tempDB[i] ) == nil then
@@ -126,6 +128,7 @@ function scene:create( event )
             end
         end
         if cinemaHeroes == true then
+            print("киногерои")
             tempDB = require("cinemaHeroes")
             for i=1, #tempDB do
                 if table.indexOf( serviceDB, tempDB[i][1]..tempDB[i][2] ) == nil then
@@ -137,6 +140,7 @@ function scene:create( event )
             end
         end
         if cartoonHeroes == true then
+            print("мультгерои")
             tempDB = require("cartoonHeroes")
             for i=1, #tempDB do
                 if table.indexOf( serviceDB, tempDB[i][1]..tempDB[i][2] ) == nil then
@@ -148,6 +152,7 @@ function scene:create( event )
             end
         end
         if bookHeroes == true then
+            print("книжные герои")
             tempDB = require("bookHeroes")
             for i=1, #tempDB do
                 if table.indexOf( serviceDB, tempDB[i][1]..tempDB[i][2] ) == nil then
@@ -160,6 +165,7 @@ function scene:create( event )
         end
     else --(titlesOnly == true)
         if cinema == true then
+            print("кино")
             tempDB = require("cinema")
             for i=1, #tempDB do
                 table.insert( totalDB, {tempDB[i], ""})
@@ -167,6 +173,7 @@ function scene:create( event )
             end
         end
         if cartoons == true then
+            print("мульты")
             tempDB = require("cartoons")
             for i=1, #tempDB do
                 if table.indexOf( serviceDB, tempDB[i] ) == nil then
@@ -176,6 +183,7 @@ function scene:create( event )
             end
         end
         if books == true then
+            print("книги")
             tempDB = require("books")
             for i=1, #tempDB do
                 if table.indexOf( serviceDB, tempDB[i] ) == nil then
@@ -194,16 +202,16 @@ function scene:create( event )
 
 	local sceneGroup = self.view
 	-- Code here runs when the scene is first created but has not yet appeared on screen
-    local gamebgcolor = {225/255, 226/255, 225/255}
+    local gamebgcolor = {244/255, 244/255, 244/255}
     local gametextcolor = {55/255, 0/255, 179/255}
     local subgametextcolor = {98/255, 0/255, 237/255}
-    local font = "geometos.ttf"
+    local font = "karton.ttf"
 
     display.setDefault( "background", unpack( gamebgcolor ) )
 
     local options =
     {
-        text = "встряхни телефон, чтобы начать игру",
+        text = "встряхни телефон,\nчтобы начать игру",
         x = display.contentWidth/2,
         y = display.contentCenterY,
         width = 920,
