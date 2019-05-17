@@ -58,7 +58,7 @@ end
 local function chooseMan( event )
     manImg.alpha = 1
     filmImg.alpha = 0.3
-    for i = 1,5 do
+    for i = 1,6 do
         manTexts[i].isVisible = true
     end
     for i = 1,3 do
@@ -72,7 +72,7 @@ end
 local function chooseFilm( event )
     filmImg.alpha = 1
     manImg.alpha = 0.3
-    for i = 1,5 do
+    for i = 1,6 do
         manRects[i].state = false
         manRects[i].isVisible = false
         manTexts[i].isVisible = false
@@ -106,7 +106,7 @@ local function choosePunkt( event )
 end
 
 local function goToGame( event )
-    for i = 1,5 do
+    for i = 1,6 do
         if (manRects[i].state == true) then
             sum = sum + 1
             composer.setVariable( "cat"..i, true )
@@ -117,9 +117,9 @@ local function goToGame( event )
     for i = 1,3 do
         if (filmRects[i].state == true) then
             sum = sum + 1
-            composer.setVariable( "cat"..5+i, true )
+            composer.setVariable( "cat"..6+i, true )
         else
-            composer.setVariable( "cat"..5+i, false )
+            composer.setVariable( "cat"..6+i, false )
         end
     end
     if (sum == 0) then
@@ -180,23 +180,25 @@ function scene:create( event )
     filmImg.alpha = 0.3
     filmImg:addEventListener( "tap", chooseFilm )
 
-    for i = 1,5 do
-        manRects[i] = display.newRoundedRect( sceneGroup, display.contentCenterX, display.contentHeight/3 + i*display.contentHeight/12, 350, 60, 14 )
+    for i = 1,6 do
+        manRects[i] = display.newRoundedRect( sceneGroup, display.contentCenterX, display.contentHeight/3.1 + i*display.contentHeight/12, 390, 60, 14 )
         manRects[i].strokeWidth = 2
         manRects[i]:setFillColor( 1 )
         manRects[i]:setStrokeColor( unpack(redColor) )
         manRects[i].state = false
         manRects[i].isVisible = false
         if (i == 1) then
-            manTexts[i] = display.newText( sceneGroup, "русские звёзды", display.contentCenterX, display.contentHeight/3 + i*display.contentHeight/12, font, 40 )
+            manTexts[i] = display.newText( sceneGroup, "исторические личности", display.contentCenterX, display.contentHeight/3.1 + i*display.contentHeight/12, font, 40 )
         elseif (i == 2) then
-            manTexts[i] = display.newText( sceneGroup, "зарубежные звёзды", display.contentCenterX, display.contentHeight/3 + i*display.contentHeight/12, font, 40 )
+            manTexts[i] = display.newText( sceneGroup, "русские звёзды", display.contentCenterX, display.contentHeight/3.1 + i*display.contentHeight/12, font, 40 )
         elseif (i == 3) then
-            manTexts[i] = display.newText( sceneGroup, "киногерои", display.contentCenterX, display.contentHeight/3 + i*display.contentHeight/12, font, 40 )
+            manTexts[i] = display.newText( sceneGroup, "зарубежные звёзды", display.contentCenterX, display.contentHeight/3.1 + i*display.contentHeight/12, font, 40 )
         elseif (i == 4) then
-            manTexts[i] = display.newText( sceneGroup, "мультгерои", display.contentCenterX, display.contentHeight/3 + i*display.contentHeight/12, font, 40 )
+            manTexts[i] = display.newText( sceneGroup, "киногерои", display.contentCenterX, display.contentHeight/3.1 + i*display.contentHeight/12, font, 40 )
         elseif (i == 5) then
-            manTexts[i] = display.newText( sceneGroup, "книжные персонажи", display.contentCenterX, display.contentHeight/3 + i*display.contentHeight/12, font, 40 )
+            manTexts[i] = display.newText( sceneGroup, "мультгерои", display.contentCenterX, display.contentHeight/3.1 + i*display.contentHeight/12, font, 40 )
+        elseif (i == 6) then
+            manTexts[i] = display.newText( sceneGroup, "книжные персонажи", display.contentCenterX, display.contentHeight/3.1 + i*display.contentHeight/12, font, 40 )
         end
         manTexts[i]:setFillColor( unpack(redColor) )
         manTexts[i].type = "man"

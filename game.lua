@@ -15,6 +15,7 @@ local totalDB = {}
 local serviceDB = {}
 
 local titlesOnly
+local historisch = false
 local celebritiesRU = false
 local celebritiesIN = false
 local cinema = false
@@ -98,14 +99,15 @@ function scene:create( event )
     math.randomseed( os.time() )
 
     titlesOnly = composer.getVariable( "titlesOnly" )
-    celebritiesRU = composer.getVariable( "cat1" )
-    celebritiesIN = composer.getVariable( "cat2" )
-    cinemaHeroes = composer.getVariable( "cat3" )
-    cartoonHeroes = composer.getVariable( "cat4" )
-    bookHeroes = composer.getVariable( "cat5" )
-    cinema = composer.getVariable( "cat6" )
-    cartoons = composer.getVariable( "cat7" )
-    books = composer.getVariable( "cat8" )
+    historisch = composer.getVariable( "cat1" )
+    celebritiesRU = composer.getVariable( "cat2" )
+    celebritiesIN = composer.getVariable( "cat3" )
+    cinemaHeroes = composer.getVariable( "cat4" )
+    cartoonHeroes = composer.getVariable( "cat5" )
+    bookHeroes = composer.getVariable( "cat6" )
+    cinema = composer.getVariable( "cat7" )
+    cartoons = composer.getVariable( "cat8" )
+    books = composer.getVariable( "cat9" )
 
 
     if titlesOnly == false then
@@ -120,6 +122,16 @@ function scene:create( event )
         if celebritiesIN == true then
             print("люди ен")
             tempDB = require("celebritiesIN")
+            for i=1, #tempDB do
+                if table.indexOf( serviceDB, tempDB[i] ) == nil then
+                    table.insert( totalDB, {tempDB[i], ""} )
+                    table.insert( serviceDB, tempDB[i])
+                else print "powtor" end
+            end
+        end
+        if historisch == true then
+            print("исторические")
+            tempDB = require("historisch")
             for i=1, #tempDB do
                 if table.indexOf( serviceDB, tempDB[i] ) == nil then
                     table.insert( totalDB, {tempDB[i], ""} )
